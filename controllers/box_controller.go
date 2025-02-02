@@ -203,7 +203,7 @@ func (bc *BoxController) CreateMessage(c *gin.Context) {
 	}
 
 	message.BoxID = boxID
-	message.CreatedAt = time.Now()
+	message.CreatedAt = time.Now().Add(time.Hour * 8)
 
 	// 如果用户已登录且选择不匿名，则设置发送者ID
 	if !message.IsAnonymous && exists {

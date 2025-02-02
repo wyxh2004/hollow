@@ -13,8 +13,8 @@ const testUsers = [
     email: "test1@example.com",
     // 密码是 "password123"
     password: "$2a$10$1qcjIeVnv.L0Y2bfJMpFS.jaSB0jDigLyP1CBJ4Nd36KuTenWNski",
-    created_at: new Date(),
-    updated_at: new Date(),
+    created_at: new Date(Date.now() + 8 * 60 * 60 * 1000),
+    updated_at: new Date(Date.now() + 8 * 60 * 60 * 1000),
   },
   {
     _id: ObjectId(),
@@ -36,8 +36,8 @@ const testBoxes = [
     name: "心情分享盒子",
     description: "分享你今天的心情和感受",
     owner_id: testUsers[0]._id,
-    created_at: new Date(),
-    updated_at: new Date(),
+    created_at: new Date(Date.now() + 8 * 60 * 60 * 1000),
+    updated_at: new Date(Date.now() + 8 * 60 * 60 * 1000),
   },
   {
     _id: ObjectId(),

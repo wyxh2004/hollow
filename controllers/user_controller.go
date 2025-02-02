@@ -51,8 +51,8 @@ func (uc *UserController) Register(c *gin.Context) {
 	}
 
 	user.Password = string(hashedPassword)
-	user.CreatedAt = time.Now().Add(time.Hour * 8)
-	user.UpdatedAt = time.Now().Add(time.Hour * 8)
+	user.CreatedAt = time.Now().Add(time.Hour * 8).Add(time.Hour * 8)
+	user.UpdatedAt = time.Now().Add(time.Hour * 8).Add(time.Hour * 8)
 
 	// 保存用户
 	result, err := utils.DB.Collection("users").InsertOne(context.Background(), user)
@@ -105,7 +105,7 @@ func (uc *UserController) Login(c *gin.Context) {
 	// 生成JWT
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"user_id": user.ID.Hex(),
-		"exp":     time.Now().Add(time.Hour * 24).Unix(),
+		"exp":     time.Now().Add(time.Hour * 24).Add(time.Hour * 8).Unix(),
 	})
 
 	tokenString, err := token.SignedString([]byte(configs.JWTSecret))
