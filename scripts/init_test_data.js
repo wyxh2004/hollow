@@ -21,8 +21,8 @@ const testUsers = [
     email: "test2@example.com",
     // 密码是 "password123"
     password: "$2a$10$1qcjIeVnv.L0Y2bfJMpFS.jaSB0jDigLyP1CBJ4Nd36KuTenWNski",
-    created_at: new Date(),
-    updated_at: new Date(),
+    created_at: new Date(Date.now() + 8 * 60 * 60 * 1000),
+    updated_at: new Date(Date.now() + 8 * 60 * 60 * 1000),
   },
 ];
 
@@ -44,16 +44,16 @@ const testBoxes = [
     name: "美食推荐盒子",
     description: "分享你最近吃到的美食",
     owner_id: testUsers[0]._id,
-    created_at: new Date(),
-    updated_at: new Date(),
+    created_at: new Date(Date.now() + 8 * 60 * 60 * 1000),
+    updated_at: new Date(Date.now() + 8 * 60 * 60 * 1000),
   },
   {
     _id: ObjectId(),
     name: "学习交流盒子",
     description: "分享你的学习经验和心得",
     owner_id: testUsers[1]._id,
-    created_at: new Date(),
-    updated_at: new Date(),
+    created_at: new Date(Date.now() + 8 * 60 * 60 * 1000),
+    updated_at: new Date(Date.now() + 8 * 60 * 60 * 1000),
   },
 ];
 
@@ -70,7 +70,7 @@ const testMessages = [
     is_anonymous: false,
     like_count: 2,
     liked_by: [testUsers[0]._id],
-    created_at: new Date(),
+    created_at: new Date(Date.now() + 8 * 60 * 60 * 1000),
   },
   {
     _id: ObjectId(),
@@ -79,7 +79,7 @@ const testMessages = [
     is_anonymous: true,
     like_count: 1,
     liked_by: [testUsers[1]._id],
-    created_at: new Date(),
+    created_at: new Date(Date.now() + 8 * 60 * 60 * 1000),
   },
   {
     _id: ObjectId(),
@@ -89,7 +89,7 @@ const testMessages = [
     is_anonymous: false,
     like_count: 0,
     liked_by: [],
-    created_at: new Date(),
+    created_at: new Date(Date.now() + 8 * 60 * 60 * 1000),
   },
 ];
 

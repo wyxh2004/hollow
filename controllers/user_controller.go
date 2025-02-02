@@ -27,7 +27,7 @@ type UserController struct{}
 // @Success      201   {object}  RegisterResponse
 // @Failure      400   {object}  ErrorResponse
 // @Failure      500   {object}  ErrorResponse
-// @Router       /api/users/register [post]
+// @Router       /api/auth/register [post]
 func (uc *UserController) Register(c *gin.Context) {
 	var user models.User
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -78,7 +78,7 @@ func (uc *UserController) Register(c *gin.Context) {
 // @Failure      400    {object}  ErrorResponse
 // @Failure      401    {object}  ErrorResponse
 // @Failure      500    {object}  ErrorResponse
-// @Router       /api/users/login [post]
+// @Router       /api/auth/login [post]
 func (uc *UserController) Login(c *gin.Context) {
 	var loginData struct {
 		Email    string `json:"email" binding:"required,email"`

@@ -18,14 +18,20 @@ func SetupRoutes(r *gin.Engine) {
 		auth.POST("/login", userController.Login)
 	}
 
-	// 留言箱路由
+	// 公开的留言箱路由
 	api := r.Group("/api")
-	api.Use(middlewares.AuthMiddleware())
 	{
-		api.POST("/boxes", boxController.CreateBox)
+		// 公开接口，不需要认证
 		api.GET("/boxes", boxController.ListBoxes)
 		api.GET("/boxes/:id", boxController.GetBox)
 		api.POST("/boxes/:id/messages", boxController.CreateMessage)
-		api.POST("/messages/:id/like", boxController.LikeMessage)
+
+		// 需要认证的接口
+		authorized := api.Group("")
+		authorized.Use(middlewares.AuthMiddleware())
+		{
+			authorized.POST("/boxes", boxController.CreateBox)
+			authorized.POST("/messages/:id/like", boxController.LikeMessage)
+		}
 	}
 }
