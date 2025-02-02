@@ -1,0 +1,388 @@
+basePath: /api
+definitions:
+  controllers.BoxDetailResponse:
+    properties:
+      box:
+        $ref: '#/definitions/models.Box'
+      messages:
+        items:
+          $ref: '#/definitions/models.MessageResponse'
+        type: array
+    type: object
+  controllers.CreateBoxResponse:
+    properties:
+      id:
+        example: 507f1f77bcf86cd799439011
+        type: string
+      message:
+        example: Box created successfully
+        type: string
+    type: object
+  controllers.CreateMessageResponse:
+    properties:
+      id:
+        example: 507f1f77bcf86cd799439011
+        type: string
+      message:
+        example: Message created successfully
+        type: string
+    type: object
+  controllers.ErrorResponse:
+    properties:
+      error:
+        example: Invalid credentials
+        type: string
+    type: object
+  controllers.LikeMessageResponse:
+    properties:
+      isLiked:
+        example: true
+        type: boolean
+      message:
+        example: Like status updated successfully
+        type: string
+    type: object
+  controllers.LoginRequest:
+    properties:
+      email:
+        example: user@example.com
+        type: string
+      password:
+        example: password123
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  controllers.LoginResponse:
+    properties:
+      token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+      user:
+        $ref: '#/definitions/models.UserResponse'
+    type: object
+  controllers.RegisterResponse:
+    properties:
+      id:
+        example: 507f1f77bcf86cd799439011
+        type: string
+      message:
+        example: User registered successfully
+        type: string
+    type: object
+  models.Box:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      owner_id:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.Message:
+    properties:
+      box_id:
+        type: string
+      content:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      is_anonymous:
+        type: boolean
+      like_count:
+        type: integer
+      liked_by:
+        items:
+          type: string
+        type: array
+      sender_id:
+        type: string
+    type: object
+  models.MessageResponse:
+    properties:
+      box_id:
+        type: string
+      content:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      is_anonymous:
+        type: boolean
+      is_liked:
+        type: boolean
+      like_count:
+        type: integer
+      sender_email:
+        type: string
+    type: object
+  models.User:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.UserResponse:
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: Hollow 项目的 API 文档
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Hollow API
+  version: "1.0"
+paths:
+  /api/boxes:
+    get:
+      description: 获取所有已创建的留言盒子列表
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Box'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      summary: 获取所有留言盒子
+      tags:
+      - boxes
+    post:
+      consumes:
+      - application/json
+      description: 创建一个新的留言盒子
+      parameters:
+      - description: 盒子信息
+        in: body
+        name: box
+        required: true
+        schema:
+          $ref: '#/definitions/models.Box'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/controllers.CreateBoxResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      security:
+      - Bearer: []
+      summary: 创建新的留言盒子
+      tags:
+      - boxes
+  /api/boxes/{id}:
+    get:
+      description: 获取指定盒子的详细信息和所有留言
+      parameters:
+      - description: 盒子ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.BoxDetailResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      summary: 获取盒子详情及留言
+      tags:
+      - boxes
+  /api/boxes/{id}/messages:
+    post:
+      consumes:
+      - application/json
+      description: 在指定盒子中创建新留言
+      parameters:
+      - description: 盒子ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: 留言内容
+        in: body
+        name: message
+        required: true
+        schema:
+          $ref: '#/definitions/models.Message'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/controllers.CreateMessageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      summary: 发送留言
+      tags:
+      - messages
+  /api/messages/{id}/like:
+    post:
+      description: 为指定留言添加或取消点赞
+      parameters:
+      - description: 留言ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.LikeMessageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      security:
+      - Bearer: []
+      summary: 点赞/取消点赞留言
+      tags:
+      - messages
+  /api/users/login:
+    post:
+      consumes:
+      - application/json
+      description: 使用邮箱和密码登录
+      parameters:
+      - description: 登录信息
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      summary: 用户登录
+      tags:
+      - users
+  /api/users/register:
+    post:
+      consumes:
+      - application/json
+      description: 注册一个新的用户账号
+      parameters:
+      - description: 用户注册信息
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/controllers.RegisterResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      summary: 注册新用户
+      tags:
+      - users
+securityDefinitions:
+  Bearer:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
