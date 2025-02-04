@@ -124,14 +124,14 @@ const docTemplate = `{
         },
         "/api/boxes": {
             "get": {
-                "description": "获取所有已创建的留言盒子列表",
+                "description": "获取所有已创建的话题盒子列表",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "boxes"
                 ],
-                "summary": "获取所有留言盒子",
+                "summary": "获取所有话题盒子",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -156,7 +156,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "创建一个新的留言盒子",
+                "description": "创建一个新的话题盒子",
                 "consumes": [
                     "application/json"
                 ],
@@ -166,7 +166,7 @@ const docTemplate = `{
                 "tags": [
                     "boxes"
                 ],
-                "summary": "创建新的留言盒子",
+                "summary": "创建新的话题盒子",
                 "parameters": [
                     {
                         "description": "盒子信息",
@@ -208,14 +208,14 @@ const docTemplate = `{
         },
         "/api/boxes/{id}": {
             "get": {
-                "description": "获取指定盒子的详细信息和所有留言",
+                "description": "获取指定盒子的详细信息和所有话题",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "boxes"
                 ],
-                "summary": "获取盒子详情及留言",
+                "summary": "获取盒子详情及话题",
                 "parameters": [
                     {
                         "type": "string",
@@ -255,7 +255,7 @@ const docTemplate = `{
         },
         "/api/boxes/{id}/messages": {
             "post": {
-                "description": "在指定盒子中创建新留言",
+                "description": "在指定盒子中创建新话题",
                 "consumes": [
                     "application/json"
                 ],
@@ -265,7 +265,7 @@ const docTemplate = `{
                 "tags": [
                     "messages"
                 ],
-                "summary": "发送留言",
+                "summary": "发送话题",
                 "parameters": [
                     {
                         "type": "string",
@@ -275,7 +275,7 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "留言内容",
+                        "description": "话题内容",
                         "name": "message",
                         "in": "body",
                         "required": true,
@@ -313,18 +313,18 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "为指定留言添加或取消点赞",
+                "description": "为指定话题添加或取消点赞",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "messages"
                 ],
-                "summary": "点赞/取消点赞留言",
+                "summary": "点赞/取消点赞话题",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "留言ID",
+                        "description": "话题ID",
                         "name": "id",
                         "in": "path",
                         "required": true

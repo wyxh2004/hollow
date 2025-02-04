@@ -18,7 +18,7 @@ func SetupRoutes(r *gin.Engine) {
 		auth.POST("/login", userController.Login)
 	}
 
-	// 公开的留言箱路由
+	// 公开的话题箱路由
 	api := r.Group("/api")
 	{
 		// 公开接口，不需要认证

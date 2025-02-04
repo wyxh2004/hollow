@@ -60,7 +60,7 @@ const testBoxes = [
 // 插入测试盒子
 db.boxes.insertMany(testBoxes);
 
-// 创建测试留言
+// 创建测试话题
 const testMessages = [
   {
     _id: ObjectId(),
@@ -93,11 +93,11 @@ const testMessages = [
   },
 ];
 
-// 插入测试留言
+// 插入测试话题
 db.messages.insertMany(testMessages);
 
 // 打印插入结果
 print("测试数据已创建:");
 print("用户数量:", db.users.count());
 print("盒子数量:", db.boxes.count());
-print("留言数量:", db.messages.count());
+print("话题数量:", db.messages.count());

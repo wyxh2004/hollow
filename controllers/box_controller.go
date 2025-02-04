@@ -16,8 +16,8 @@ import (
 type BoxController struct{}
 
 // CreateBox godoc
-// @Summary      创建新的留言盒子
-// @Description  创建一个新的留言盒子
+// @Summary      创建新的话题盒子
+// @Description  创建一个新的话题盒子
 // @Tags         boxes
 // @Accept       json
 // @Produce      json
@@ -58,8 +58,8 @@ func (bc *BoxController) CreateBox(c *gin.Context) {
 }
 
 // ListBoxes godoc
-// @Summary      获取所有留言盒子
-// @Description  获取所有已创建的留言盒子列表
+// @Summary      获取所有话题盒子
+// @Description  获取所有已创建的话题盒子列表
 // @Tags         boxes
 // @Produce      json
 // @Success      200  {array}   models.Box
@@ -84,8 +84,8 @@ func (bc *BoxController) ListBoxes(c *gin.Context) {
 }
 
 // GetBox godoc
-// @Summary      获取盒子详情及留言
-// @Description  获取指定盒子的详细信息和所有留言
+// @Summary      获取盒子详情及话题
+// @Description  获取指定盒子的详细信息和所有话题
 // @Tags         boxes
 // @Produce      json
 // @Param        id   path      string  true  "盒子ID"
@@ -115,7 +115,7 @@ func (bc *BoxController) GetBox(c *gin.Context) {
 		return
 	}
 
-	// 获取留言
+	// 获取话题
 	opts := options.Find().SetSort(bson.D{{Key: "created_at", Value: -1}})
 	cursor, err := utils.DB.Collection("messages").Find(context.Background(), bson.M{"box_id": boxID}, opts)
 	if err != nil {
@@ -171,13 +171,13 @@ func (bc *BoxController) GetBox(c *gin.Context) {
 }
 
 // CreateMessage godoc
-// @Summary      发送留言
-// @Description  在指定盒子中创建新留言
+// @Summary      发送话题
+// @Description  在指定盒子中创建新话题
 // @Tags         messages
 // @Accept       json
 // @Produce      json
 // @Param        id       path      string         true  "盒子ID"
-// @Param        message  body      models.Message  true  "留言内容"
+// @Param        message  body      models.Message  true  "话题内容"
 // @Success      201      {object}  CreateMessageResponse
 // @Failure      400      {object}  ErrorResponse
 // @Failure      500      {object}  ErrorResponse
@@ -223,12 +223,12 @@ func (bc *BoxController) CreateMessage(c *gin.Context) {
 }
 
 // LikeMessage godoc
-// @Summary      点赞/取消点赞留言
-// @Description  为指定留言添加或取消点赞
+// @Summary      点赞/取消点赞话题
+// @Description  为指定话题添加或取消点赞
 // @Tags         messages
 // @Produce      json
 // @Security     Bearer
-// @Param        id   path      string  true  "留言ID"
+// @Param        id   path      string  true  "话题ID"
 // @Success      200  {object}  LikeMessageResponse
 // @Failure      400  {object}  ErrorResponse
 // @Failure      401  {object}  ErrorResponse

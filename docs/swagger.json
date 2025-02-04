@@ -1,588 +1,549 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "description": "Hollow 项目的 API 文档",
-        "title": "Hollow API",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "API Support",
-            "url": "http://www.swagger.io/support",
-            "email": "support@swagger.io"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
-        "version": "1.0"
+  "swagger": "2.0",
+  "info": {
+    "description": "Hollow 项目的 API 文档",
+    "title": "Hollow API",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "name": "API Support",
+      "url": "http://www.swagger.io/support",
+      "email": "support@swagger.io"
     },
-    "host": "localhost:8080",
-    "basePath": "/",
-    "paths": {
-        "/api/auth/login": {
-            "post": {
-                "description": "使用邮箱和密码登录",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "users"
-                ],
-                "summary": "用户登录",
-                "parameters": [
-                    {
-                        "description": "登录信息",
-                        "name": "login",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/controllers.LoginRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.LoginResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/auth/register": {
-            "post": {
-                "description": "注册一个新的用户账号",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "users"
-                ],
-                "summary": "注册新用户",
-                "parameters": [
-                    {
-                        "description": "用户注册信息",
-                        "name": "user",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.User"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.RegisterResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/boxes": {
-            "get": {
-                "description": "获取所有已创建的留言盒子列表",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "boxes"
-                ],
-                "summary": "获取所有留言盒子",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.Box"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "创建一个新的留言盒子",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "boxes"
-                ],
-                "summary": "创建新的留言盒子",
-                "parameters": [
-                    {
-                        "description": "盒子信息",
-                        "name": "box",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Box"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.CreateBoxResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/boxes/{id}": {
-            "get": {
-                "description": "获取指定盒子的详细信息和所有留言",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "boxes"
-                ],
-                "summary": "获取盒子详情及留言",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "盒子ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.BoxDetailResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/boxes/{id}/messages": {
-            "post": {
-                "description": "在指定盒子中创建新留言",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "messages"
-                ],
-                "summary": "发送留言",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "盒子ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "留言内容",
-                        "name": "message",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Message"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.CreateMessageResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/messages/{id}/like": {
-            "post": {
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "description": "为指定留言添加或取消点赞",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "messages"
-                ],
-                "summary": "点赞/取消点赞留言",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "留言ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.LikeMessageResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        }
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "definitions": {
-        "controllers.BoxDetailResponse": {
-            "type": "object",
-            "properties": {
-                "box": {
-                    "$ref": "#/definitions/models.Box"
-                },
-                "messages": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.MessageResponse"
-                    }
-                }
+    "version": "1.0"
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "description": "使用邮箱和密码登录",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["users"],
+        "summary": "用户登录",
+        "parameters": [
+          {
+            "description": "登录信息",
+            "name": "login",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/controllers.LoginRequest"
             }
-        },
-        "controllers.CreateBoxResponse": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string",
-                    "example": "507f1f77bcf86cd799439011"
-                },
-                "message": {
-                    "type": "string",
-                    "example": "Box created successfully"
-                }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/controllers.LoginResponse"
             }
-        },
-        "controllers.CreateMessageResponse": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string",
-                    "example": "507f1f77bcf86cd799439011"
-                },
-                "message": {
-                    "type": "string",
-                    "example": "Message created successfully"
-                }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/controllers.ErrorResponse"
             }
-        },
-        "controllers.ErrorResponse": {
-            "type": "object",
-            "properties": {
-                "error": {
-                    "type": "string",
-                    "example": "Invalid credentials"
-                }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/controllers.ErrorResponse"
             }
-        },
-        "controllers.LikeMessageResponse": {
-            "type": "object",
-            "properties": {
-                "isLiked": {
-                    "type": "boolean",
-                    "example": true
-                },
-                "message": {
-                    "type": "string",
-                    "example": "Like status updated successfully"
-                }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/controllers.ErrorResponse"
             }
-        },
-        "controllers.LoginRequest": {
-            "type": "object",
-            "required": [
-                "email",
-                "password"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string",
-                    "example": "user@example.com"
-                },
-                "password": {
-                    "type": "string",
-                    "example": "password123"
-                }
-            }
-        },
-        "controllers.LoginResponse": {
-            "type": "object",
-            "properties": {
-                "token": {
-                    "type": "string",
-                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                },
-                "user": {
-                    "$ref": "#/definitions/models.UserResponse"
-                }
-            }
-        },
-        "controllers.RegisterResponse": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string",
-                    "example": "507f1f77bcf86cd799439011"
-                },
-                "message": {
-                    "type": "string",
-                    "example": "User registered successfully"
-                }
-            }
-        },
-        "models.Box": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "owner_id": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.Message": {
-            "type": "object",
-            "properties": {
-                "box_id": {
-                    "type": "string"
-                },
-                "content": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "is_anonymous": {
-                    "type": "boolean"
-                },
-                "like_count": {
-                    "type": "integer"
-                },
-                "liked_by": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "sender_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.MessageResponse": {
-            "type": "object",
-            "properties": {
-                "box_id": {
-                    "type": "string"
-                },
-                "content": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "is_anonymous": {
-                    "type": "boolean"
-                },
-                "is_liked": {
-                    "type": "boolean"
-                },
-                "like_count": {
-                    "type": "integer"
-                },
-                "sender_email": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.User": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.UserResponse": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                }
-            }
+          }
         }
+      }
     },
-    "securityDefinitions": {
-        "Bearer": {
-            "description": "Type \"Bearer\" followed by a space and JWT token.",
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
+    "/api/auth/register": {
+      "post": {
+        "description": "注册一个新的用户账号",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["users"],
+        "summary": "注册新用户",
+        "parameters": [
+          {
+            "description": "用户注册信息",
+            "name": "user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/models.User"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/controllers.RegisterResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/controllers.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/controllers.ErrorResponse"
+            }
+          }
         }
+      }
+    },
+    "/api/boxes": {
+      "get": {
+        "description": "获取所有已创建的话题盒子列表",
+        "produces": ["application/json"],
+        "tags": ["boxes"],
+        "summary": "获取所有话题盒子",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/models.Box"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/controllers.ErrorResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "description": "创建一个新的话题盒子",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["boxes"],
+        "summary": "创建新的话题盒子",
+        "parameters": [
+          {
+            "description": "盒子信息",
+            "name": "box",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/models.Box"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/controllers.CreateBoxResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/controllers.ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/controllers.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/controllers.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/boxes/{id}": {
+      "get": {
+        "description": "获取指定盒子的详细信息和所有话题",
+        "produces": ["application/json"],
+        "tags": ["boxes"],
+        "summary": "获取盒子详情及话题",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "盒子ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/controllers.BoxDetailResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/controllers.ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/controllers.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/controllers.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/boxes/{id}/messages": {
+      "post": {
+        "description": "在指定盒子中创建新话题",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "tags": ["messages"],
+        "summary": "发送话题",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "盒子ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "话题内容",
+            "name": "message",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/models.Message"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/controllers.CreateMessageResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/controllers.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/controllers.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/messages/{id}/like": {
+      "post": {
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "description": "为指定话题添加或取消点赞",
+        "produces": ["application/json"],
+        "tags": ["messages"],
+        "summary": "点赞/取消点赞话题",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "话题ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/controllers.LikeMessageResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/controllers.ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/controllers.ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/controllers.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/controllers.ErrorResponse"
+            }
+          }
+        }
+      }
     }
+  },
+  "definitions": {
+    "controllers.BoxDetailResponse": {
+      "type": "object",
+      "properties": {
+        "box": {
+          "$ref": "#/definitions/models.Box"
+        },
+        "messages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/models.MessageResponse"
+          }
+        }
+      }
+    },
+    "controllers.CreateBoxResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "507f1f77bcf86cd799439011"
+        },
+        "message": {
+          "type": "string",
+          "example": "Box created successfully"
+        }
+      }
+    },
+    "controllers.CreateMessageResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "507f1f77bcf86cd799439011"
+        },
+        "message": {
+          "type": "string",
+          "example": "Message created successfully"
+        }
+      }
+    },
+    "controllers.ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "example": "Invalid credentials"
+        }
+      }
+    },
+    "controllers.LikeMessageResponse": {
+      "type": "object",
+      "properties": {
+        "isLiked": {
+          "type": "boolean",
+          "example": true
+        },
+        "message": {
+          "type": "string",
+          "example": "Like status updated successfully"
+        }
+      }
+    },
+    "controllers.LoginRequest": {
+      "type": "object",
+      "required": ["email", "password"],
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "user@example.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "password123"
+        }
+      }
+    },
+    "controllers.LoginResponse": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        },
+        "user": {
+          "$ref": "#/definitions/models.UserResponse"
+        }
+      }
+    },
+    "controllers.RegisterResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "507f1f77bcf86cd799439011"
+        },
+        "message": {
+          "type": "string",
+          "example": "User registered successfully"
+        }
+      }
+    },
+    "models.Box": {
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "owner_id": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "models.Message": {
+      "type": "object",
+      "properties": {
+        "box_id": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "is_anonymous": {
+          "type": "boolean"
+        },
+        "like_count": {
+          "type": "integer"
+        },
+        "liked_by": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sender_id": {
+          "type": "string"
+        }
+      }
+    },
+    "models.MessageResponse": {
+      "type": "object",
+      "properties": {
+        "box_id": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "is_anonymous": {
+          "type": "boolean"
+        },
+        "is_liked": {
+          "type": "boolean"
+        },
+        "like_count": {
+          "type": "integer"
+        },
+        "sender_email": {
+          "type": "string"
+        }
+      }
+    },
+    "models.User": {
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "models.UserResponse": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "Bearer": {
+      "description": "Type \"Bearer\" followed by a space and JWT token.",
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
 }
