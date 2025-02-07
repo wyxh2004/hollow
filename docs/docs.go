@@ -363,6 +363,102 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/api/users/avatar": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "上传并更新用户的头像",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "上传用户头像",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "头像图片文件",
+                        "name": "avatar",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UploadAvatarResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/{id}/avatar": {
+            "get": {
+                "description": "获取指定用户的头像图片",
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "获取用户头像",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ErrorResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -470,6 +566,20 @@ const docTemplate = `{
                 }
             }
         },
+        "controllers.UploadAvatarResponse": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "description": "base64 编码的头像数据",
+                    "type": "string",
+                    "example": "data:image/png;base64,..."
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Avatar uploaded successfully"
+                }
+            }
+        },
         "models.Box": {
             "type": "object",
             "properties": {
@@ -556,7 +666,14 @@ const docTemplate = `{
         },
         "models.User": {
             "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
             "properties": {
+                "avatar": {
+                    "type": "string"
+                },
                 "created_at": {
                     "type": "string"
                 },
@@ -566,6 +683,10 @@ const docTemplate = `{
                 "id": {
                     "type": "string"
                 },
+                "password": {
+                    "type": "string",
+                    "minLength": 6
+                },
                 "updated_at": {
                     "type": "string"
                 }
@@ -574,6 +695,9 @@ const docTemplate = `{
         "models.UserResponse": {
             "type": "object",
             "properties": {
+                "avatar": {
+                    "type": "string"
+                },
                 "email": {
                     "type": "string"
                 },
